@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.travel.dao.HotelMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.travel.pojo.Hotel">
+    <id column="hotel_id" jdbcType="INTEGER" property="hotelId" />
+    <result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
+    <result column="hotel_adress" jdbcType="VARCHAR" property="hotelAdress" />
+    <result column="hotel_intro" jdbcType="VARCHAR" property="hotelIntro" />
+    <result column="hotel_link" jdbcType="VARCHAR" property="hotelLink" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    hotel_id, hotel_name, hotel_adress, hotel_intro, hotel_link
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hotel
+    where hotel_id = #{hotelId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hotel
+    where hotel_id = #{hotelId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.travel.pojo.Hotel">
+    insert into hotel (hotel_id, hotel_name, hotel_adress, 
+      hotel_intro, hotel_link)
+    values (#{hotelId,jdbcType=INTEGER}, #{hotelName,jdbcType=VARCHAR}, #{hotelAdress,jdbcType=VARCHAR}, 
+      #{hotelIntro,jdbcType=VARCHAR}, #{hotelLink,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.travel.pojo.Hotel">
+    insert into hotel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hotelId != null">
+        hotel_id,
+      </if>
+      <if test="hotelName != null">
+        hotel_name,
+      </if>
+      <if test="hotelAdress != null">
+        hotel_adress,
+      </if>
+      <if test="hotelIntro != null">
+        hotel_intro,
+      </if>
+      <if test="hotelLink != null">
+        hotel_link,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hotelId != null">
+        #{hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="hotelName != null">
+        #{hotelName,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelAdress != null">
+        #{hotelAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelIntro != null">
+        #{hotelIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelLink != null">
+        #{hotelLink,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.travel.pojo.Hotel">
+    update hotel
+    <set>
+      <if test="hotelName != null">
+        hotel_name = #{hotelName,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelAdress != null">
+        hotel_adress = #{hotelAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelIntro != null">
+        hotel_intro = #{hotelIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelLink != null">
+        hotel_link = #{hotelLink,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hotel_id = #{hotelId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.travel.pojo.Hotel">
+    update hotel
+    set hotel_name = #{hotelName,jdbcType=VARCHAR},
+      hotel_adress = #{hotelAdress,jdbcType=VARCHAR},
+      hotel_intro = #{hotelIntro,jdbcType=VARCHAR},
+      hotel_link = #{hotelLink,jdbcType=VARCHAR}
+    where hotel_id = #{hotelId,jdbcType=INTEGER}
+  </update>
+</mapper>

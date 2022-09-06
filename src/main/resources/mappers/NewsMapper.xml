@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.travel.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.travel.pojo.News">
+    <id column="new_id" jdbcType="INTEGER" property="newId" />
+    <result column="new_title" jdbcType="VARCHAR" property="newTitle" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    new_id, new_title, content, create_time, admin_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news
+    where new_id = #{newId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where new_id = #{newId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.travel.pojo.News">
+    insert into news (new_id, new_title, content, 
+      create_time, admin_id)
+    values (#{newId,jdbcType=INTEGER}, #{newTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.travel.pojo.News">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newId != null">
+        new_id,
+      </if>
+      <if test="newTitle != null">
+        new_title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newId != null">
+        #{newId,jdbcType=INTEGER},
+      </if>
+      <if test="newTitle != null">
+        #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.travel.pojo.News">
+    update news
+    <set>
+      <if test="newTitle != null">
+        new_title = #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where new_id = #{newId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.travel.pojo.News">
+    update news
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER}
+    where new_id = #{newId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAllNews" resultMap="BaseResultMap">
+    select *
+    from news
+  </select>
+  <select id="selectPageNews" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from news
+    limit #{page},#{size}
+  </select>
+
+  <select id="selectNewByTitle" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from news
+    where new_title like CONCAT('%',#{newsTitle},'%')
+  </select>
+</mapper>

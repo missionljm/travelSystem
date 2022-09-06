@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.travel.dao.GuideMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.travel.pojo.Guide">
+    <id column="guide_id" jdbcType="INTEGER" property="guideId" />
+    <result column="guide_name" jdbcType="VARCHAR" property="guideName" />
+    <result column="age" jdbcType="VARCHAR" property="age" />
+    <result column="guide_intro" jdbcType="VARCHAR" property="guideIntro" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    guide_id, guide_name, age, guide_intro, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from guide
+    where guide_id = #{guideId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from guide
+    where guide_id = #{guideId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.travel.pojo.Guide">
+    insert into guide (guide_id, guide_name, age, 
+      guide_intro, create_time)
+    values (#{guideId,jdbcType=INTEGER}, #{guideName,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, 
+      #{guideIntro,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.travel.pojo.Guide">
+    insert into guide
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guideId != null">
+        guide_id,
+      </if>
+      <if test="guideName != null">
+        guide_name,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="guideIntro != null">
+        guide_intro,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="guideId != null">
+        #{guideId,jdbcType=INTEGER},
+      </if>
+      <if test="guideName != null">
+        #{guideName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="guideIntro != null">
+        #{guideIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.travel.pojo.Guide">
+    update guide
+    <set>
+      <if test="guideName != null">
+        guide_name = #{guideName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="guideIntro != null">
+        guide_intro = #{guideIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where guide_id = #{guideId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.travel.pojo.Guide">
+    update guide
+    set guide_name = #{guideName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      guide_intro = #{guideIntro,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where guide_id = #{guideId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from guide
+  </select>
+
+  <select id="selectPageGuide" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from guide
+    limit #{page},#{size}
+  </select>
+
+  <select id="selectGuideByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from guide
+    where guide_name like CONCAT('%',#{guideTitle},'%')
+  </select>
+</mapper>

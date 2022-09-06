@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.travel.dao.ScenicSpotMapper">
+    <resultMap id="BaseResultMap" type="com.springboot.travel.pojo.ScenicSpot">
+        <id column="scenic_spot_id" jdbcType="INTEGER" property="scenicSpotId"/>
+        <result column="scenic_spot_name" jdbcType="VARCHAR" property="scenicSpotName"/>
+        <result column="scenic_spot_intro" jdbcType="VARCHAR" property="scenicSpotIntro"/>
+        <result column="scenic_spot_image" jdbcType="VARCHAR" property="scenicSpotImage"/>
+        <result column="scenic_spot_hot" jdbcType="INTEGER" property="scenicSpotHot"/>
+        <result column="set_card" jdbcType="INTEGER" property="setCard"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="scenic_spot_address" jdbcType="VARCHAR" property="scenicSpotAddress"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    scenic_spot_id, scenic_spot_name, scenic_spot_intro, scenic_spot_image, scenic_spot_hot, 
+    create_time, scenic_spot_address, set_card
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from scenic_spot
+        where scenic_spot_id = #{scenicSpotId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from scenic_spot
+    where scenic_spot_id = #{scenicSpotId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.springboot.travel.pojo.ScenicSpot">
+    insert into scenic_spot (scenic_spot_id, scenic_spot_name, scenic_spot_intro, 
+      scenic_spot_image, scenic_spot_hot, create_time, 
+      scenic_spot_address,set_card)
+    values (#{scenicSpotId,jdbcType=INTEGER}, #{scenicSpotName,jdbcType=VARCHAR}, #{scenicSpotIntro,jdbcType=VARCHAR}, 
+      #{scenicSpotImage,jdbcType=VARCHAR},#{setCard,jdbcType=INTEGER}, #{scenicSpotHot,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{scenicSpotAddress,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.springboot.travel.pojo.ScenicSpot">
+        insert into scenic_spot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scenicSpotId != null">
+                scenic_spot_id,
+            </if>
+            <if test="scenicSpotName != null">
+                scenic_spot_name,
+            </if>
+            <if test="scenicSpotIntro != null">
+                scenic_spot_intro,
+            </if>
+            <if test="scenicSpotImage != null">
+                scenic_spot_image,
+            </if>
+            <if test="scenicSpotHot != null">
+                scenic_spot_hot,
+            </if>
+            <if test="setCard != null">
+                set_card,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="scenicSpotAddress != null">
+                scenic_spot_address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scenicSpotId != null">
+                #{scenicSpotId,jdbcType=INTEGER},
+            </if>
+            <if test="scenicSpotName != null">
+                #{scenicSpotName,jdbcType=VARCHAR},
+            </if>
+            <if test="scenicSpotIntro != null">
+                #{scenicSpotIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="scenicSpotImage != null">
+                #{scenicSpotImage,jdbcType=VARCHAR},
+            </if>
+            <if test="setCard != null">
+                #{setCard,jdbcType=INTEGER},
+            </if>
+            <if test="scenicSpotHot != null">
+                #{scenicSpotHot,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scenicSpotAddress != null">
+                #{scenicSpotAddress,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.springboot.travel.pojo.ScenicSpot">
+        update scenic_spot
+        <set>
+            <if test="scenicSpotName != null">
+                scenic_spot_name = #{scenicSpotName,jdbcType=VARCHAR},
+            </if>
+            <if test="scenicSpotIntro != null">
+                scenic_spot_intro = #{scenicSpotIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="scenicSpotImage != null">
+                scenic_spot_image = #{scenicSpotImage,jdbcType=VARCHAR},
+            </if>
+            <if test="scenicSpotHot != null">
+                scenic_spot_hot = #{scenicSpotHot,jdbcType=INTEGER},
+            </if>
+            <if test="setCard != null">
+                set_card = #{setCard,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scenicSpotAddress != null">
+                scenic_spot_address = #{scenicSpotAddress,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where scenic_spot_id = #{scenicSpotId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.springboot.travel.pojo.ScenicSpot">
+    update scenic_spot
+    set scenic_spot_name = #{scenicSpotName,jdbcType=VARCHAR},
+      scenic_spot_intro = #{scenicSpotIntro,jdbcType=VARCHAR},
+      scenic_spot_image = #{scenicSpotImage,jdbcType=VARCHAR},
+      scenic_spot_hot = #{scenicSpotHot,jdbcType=INTEGER},
+      set_card = #{setCard,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      scenic_spot_address = #{scenicSpotAddress,jdbcType=VARCHAR}
+    where scenic_spot_id = #{scenicSpotId,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectSpotPageList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from scenic_spot
+    limit #{page},#{size}
+  </select>
+
+    <select id="selectSpotList" resultMap="BaseResultMap">
+    select *
+    from scenic_spot
+  </select>
+
+    <select id="selectBySpotAddress" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from scenic_spot
+    where scenic_spot_address like CONCAT('%',#{address},'%')
+  </select>
+
+    <select id="selectByCart" resultMap="BaseResultMap">
+    select *
+    from scenic_spot
+    where set_card = 1
+  </select>
+
+    <select id="selectIndexSpot" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT scenic_spot.*,thumb.state
+        FROM scenic_spot LEFT OUTER JOIN
+        (SELECT thumbs.*
+        FROM `user` , thumbs
+        WHERE `user`.user_id = thumbs.user_id AND `user`.user_id = #{userId}) AS thumb
+        ON scenic_spot.scenic_spot_id = thumb.scenic_spot_id
+        ORDER BY scenic_spot_hot desc
+        limit #{page},#{size}
+  </select>
+
+    <select id="selectPCenterSpot" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT scenic_spot.*,thumb.state
+        FROM scenic_spot LEFT OUTER JOIN
+        (SELECT thumbs.*
+        FROM `user` , thumbs
+        WHERE `user`.user_id = thumbs.user_id AND `user`.user_id = #{userId}) AS thumb
+        ON scenic_spot.scenic_spot_id = thumb.scenic_spot_id
+    </select>
+</mapper>
